@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.bak{
+    margin: 0px;
+    background-image: url("../img/tree-736885_1280.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    z-index: -1;
+}
