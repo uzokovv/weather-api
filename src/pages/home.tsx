@@ -30,7 +30,7 @@ const Home: React.FC = () => {
 
   // ===================== kelachak ob havo ================
   async function getWeatherNext() {
-    const res: AxiosResponse = await axios.get(`https://api.weatherapi.com/v1/future.json?q=uzbekistan&dt=2025-02-27&key=3ae903f87a374969aa5150905251102`)
+    const res: AxiosResponse = await axios.get(`https://api.weatherapi.com/v1/future.json?q=uzbekistan&dt=2025-02-28&key=3ae903f87a374969aa5150905251102`)
 
     return res.data
   }
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
               gap: 2,
             }}
           >
-            {datas?.forecast.forecastday[0].hour.map((card: any, index: any) => (
+            {datas?.forecast.forecastday[0].hour.map((card: any, index:any) => (
               <Card>
                 <CardActionArea
                   onClick={() => setSelectedCard(index)}
