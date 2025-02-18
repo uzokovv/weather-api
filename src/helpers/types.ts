@@ -1,3 +1,7 @@
+export interface WeatherResponse {
+    location: Location;
+    current: Current;
+}
 export interface Location {
     "name": string,
     "region": string,
