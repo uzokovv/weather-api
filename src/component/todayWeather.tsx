@@ -1,16 +1,14 @@
-import { WiHumidity } from "react-icons/wi";
-import { FaWind } from "react-icons/fa";
-import { IoRainyOutline } from "react-icons/io5";
-import { Button, TextField } from '@mui/material';
+import OpacityIcon from '@mui/icons-material/Opacity';
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import { WeatherResponse } from "../helpers/types";
+import { WeatherResponse } from "../helpers/getWeatherType";
 import { token, Url } from "../helpers/url";
-import { useRef } from "react";
+import Clock from "./clock";
+import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
+import AirIcon from '@mui/icons-material/Air';
 
 const TodayWeather = () => {
 
-    const inputRef = useRef<HTMLInputElement | null>(null)
     async function getWeather() {
         const res: AxiosResponse = await axios.get<WeatherResponse>(`${Url}current.json?q=uzbekistan&key=${token}`)
         return res.data
@@ -22,31 +20,16 @@ const TodayWeather = () => {
     })
 
     error ? <h1>{error?.message}</h1> : null
-    isLoading ? <h1>loading...</h1> : null
-    function searchBtn() {
-        if (inputRef.current?.value) {
-            return "eror"
-        }
-    }
+
     return (
-        <div>
-            <div className='bg-white flex justify-center items-center p-5 gap-5'>
-                <TextField
-                    inputRef={inputRef}
-                    id="outlined-multiline-flexible"
-                    label="qidirish"
-                    multiline
-                    maxRows={4}
-                    focused
-                />
-                <Button onClick={() => searchBtn()} variant="contained">search</Button>
-            </div>
+        <div className='container mx-auto px-20'>
+            {isLoading ? <h1 className="text-3xl text-white">loading...</h1> : null}
             {/* kunlik ob havo */}
             {data && (
                 <div className='' key={1}>
                     <div>
                         <h1 className='mt-30 text-white text-3xl'>{data.location.country}, {data.location.region}</h1>
-                        <h1 className='text-white text-2xl opacity-80'>hozir Soat: {data.location.localtime.substring(11, 17)}, kecha bu vaqtda 3°</h1>
+                        <h1 className='text-white text-2xl opacity-80 flex gap-3'>hozir Soat: <Clock /> </h1>
                     </div>
                     <div className='flex mt-9'>
                         <div className='flex items-center'>
@@ -60,16 +43,16 @@ const TodayWeather = () => {
                     </div>
                     <div className='flex justify-between mt-15 w-[80%] mx-auto'>
                         <div className='flex gap-3 items-center'>
-                            <FaWind size={52} className="text-blue-300" />
+                            <AirIcon className='text-3xl text-white' />
                             <span className="text-lg font-semibold text-white">{data.current.wind_kph} km/h {data.current.wind_dir}</span>
                         </div>
                         <div className='flex gap-3 items-center'>
-                            <WiHumidity size={62} className="text-blue-300" />
+                            <OpacityIcon className='text-white text-3xl' />
                             <h1 className="text-2xl font-semibold text-white ">{data.current.humidity}%</h1>
                         </div>
-                        <div className='flex gap-3 items-center'>
-                            <IoRainyOutline size={52} className="text-blue-300" />
-                            <span className="text-lg font-semibold text-white">{data.current.precip_mm == 0 ? 'None' : data.current.precip_mm && "%"}</span>
+                        <div className='flex gap-3 items-center text-white'>
+                            <ThunderstormIcon />
+                            {data.current.precip_mm > 0 ? <h1 className="text-lg font-semibold text-white">{data.current.precip_mm}%</h1> : <h1>None</h1>}
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import { WeatherResponse } from '../helpers/types'
+import { WeatherResponse } from '../helpers/getWeatherType'
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -20,23 +20,20 @@ const NextWeather = () => {
         return res.data
     }
 
-    const { data: datas, error: errors } = useQuery({
+    const { data, error, isLoading } = useQuery({
         queryKey: ['nextweather'],
         queryFn: getWeatherNext
     })
-    // console.log(datas?.forecast.forecastday[0].hour);
 
-    errors ? toast.error(errors.message) : ''
+    error ? toast.error(error.message) : ''
 
     const [selectedCard, setSelectedCard] = React.useState(0);
     return (
-        <div>
-            {datas && (
-                <div key={2} className='text-6xl mt-30 text-white'>
-                    <h1 className='mb-5'>10 Kunlik ob havo</h1>
-                    {/* {datas?.forecast.forecastday[0].hour.map((item: any) => (
-            <h1>{item.dewpoint_c}</h1>
-          ))} */}
+        <div className='container mx-auto px-20'>
+            {isLoading ? <h1 className="text-3xl text-white">loading...</h1>: null}
+            {data && (
+                <div className='text-6xl mt-30 text-white'>
+                    <h1 className='mb-5'>14 Kunlik ob havo</h1>
                     <Box
                         sx={{
                             width: '100%',
@@ -45,9 +42,9 @@ const NextWeather = () => {
                             gap: 2,
                         }}
                     >
-                        {datas?.forecast.forecastday[0].hour.map((card: any, index: any) => (
-                            <Card>
-                                <CardActionArea className='bg-white'
+                        {data?.forecast.forecastday[0].hour.map((card: any, index: any) => (
+                            <Card key={index}>
+                                <CardActionArea className=''
                                     onClick={() => setSelectedCard(index)}
                                     data-active={selectedCard === index ? '' : undefined}
                                     sx={{
@@ -57,17 +54,17 @@ const NextWeather = () => {
                                         },
                                     }}
                                 >
-                                    <CardContent className='text-center text-white' sx={{ height: '100%', backgroundColor: '#5D98E2', }}>
+                                    <CardContent className='text-center text-black' sx={{ height: '100%', paddingX: '0px', width: '50%', marginX: 'auto'}}>
                                         <Typography variant="h5" component="div">
                                             {card.time.substring(11, 17)}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
-                                            <h1 className='text-3xl text-white'>{card.temp_c}°</h1>
+                                            <span className='text-3xl text-black'>{card.temp_c}°</span>
                                         </Typography>
-                                        <Typography className='text-white' variant="body2" color="text.secondary">
+                                        <Typography className='text-black' variant="body2" color="text.secondary">
                                             {card.condition.text}
                                         </Typography>
-                                        <Typography className='flex justify-center text-white' variant="body2" color="text.secondary">
+                                        <Typography className='flex justify-center text-black' variant="body2" color="text.secondary">
                                             <img src={card.condition.icon} alt="" />
                                         </Typography>
                                     </CardContent>
