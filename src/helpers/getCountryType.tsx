@@ -7,5 +7,5 @@ interface officialflag {
     svg: string
 }
 interface countryName {
-    shartname: string
+    shortname: string
 }

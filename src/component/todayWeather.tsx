@@ -7,10 +7,10 @@ import Clock from "./clock";
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import AirIcon from '@mui/icons-material/Air';
 
-const TodayWeather = () => {
+const TodayWeather = ({ name }: any) => {
 
     async function getWeather() {
-        const res: AxiosResponse = await axios.get<WeatherResponse>(`${Url}current.json?q=uzbekistan&key=${token}`)
+        const res: AxiosResponse = await axios.get<WeatherResponse>(`${Url}current.json?q=${name ? name : 'uzbekistan'}&key=${token}`)
         return res.data
     }
 

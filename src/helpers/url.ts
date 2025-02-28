@@ -1,4 +1,4 @@
-export const token: string = '3ae903f87a374969aa5150905251102'
+export const token: string = 'e675d6a905ec408e861192758252502'
 export const Url: string = 'http://api.weatherapi.com/v1/'
 
 export const config = {

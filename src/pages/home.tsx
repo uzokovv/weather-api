@@ -14,6 +14,7 @@ const Home: React.FC = () => {
       <hr className='text-white opacity-60 mt-10' />
       {/* ======================10 kunlik ob havo===================*/}
       <NextWeather />
+      <div className='h-8'></div>
     </div>
   )
 }
