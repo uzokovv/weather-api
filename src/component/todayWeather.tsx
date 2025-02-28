@@ -6,27 +6,48 @@ import { token, Url } from "../helpers/url";
 import Clock from "./clock";
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import AirIcon from '@mui/icons-material/Air';
+import { FC, useContext, useEffect } from 'react';
+import { CountryContext } from '../context/CountryContext';
+import { toast } from 'react-toastify';
+import { Box, LinearProgress, Typography } from '@mui/material';
 
-const TodayWeather = ({ name }: any) => {
+const TodayWeather = () => {
+    const context = useContext(CountryContext);
 
-    async function getWeather() {
-        const res: AxiosResponse = await axios.get<WeatherResponse>(`${Url}current.json?q=${name ? name : 'uzbekistan'}&key=${token}`)
+    if (!context) {
+        return <h1 className="text-red-500">Error: CountryContext is not provided!</h1>;
+    }
+
+    const { choseCountry } = context
+    async function getWeather(countries: string) {
+        const res: AxiosResponse = await axios.get<WeatherResponse>(`${Url}current.json?q=${countries ? countries : 'uzbekistan'}&key=${token}`)
         return res.data
     }
 
-    const { data, error, isLoading } = useQuery({
+    const { data, error, isLoading, refetch } = useQuery({
         queryKey: ['location'],
-        queryFn: getWeather
+        queryFn: () => getWeather(choseCountry),
     })
-
+    useEffect(() => {
+        if (choseCountry) {
+            refetch();
+        }
+    }, [choseCountry, refetch]);
     error ? <h1>{error?.message}</h1> : null
 
     return (
         <div className='container mx-auto px-20'>
-            {isLoading ? <h1 className="text-3xl text-white">loading...</h1> : null}
             {/* kunlik ob havo */}
             {data && (
+
                 <div className='' key={1}>
+                    {isLoading ?
+                        <Box>
+                            <Typography variant={'h1'}>obi havo yuklanmoqda</Typography>
+                            <LinearProgress />
+                        </Box>
+                        : null}
+
                     <div>
                         <h1 className='mt-30 text-white text-3xl'>{data.location.country}, {data.location.region}</h1>
                         <h1 className='text-white text-2xl opacity-80 flex gap-3'>hozir Soat: <Clock /> </h1>
@@ -55,6 +76,7 @@ const TodayWeather = ({ name }: any) => {
                             {data.current.precip_mm > 0 ? <h1 className="text-lg font-semibold text-white">{data.current.precip_mm}%</h1> : <h1>None</h1>}
                         </div>
                     </div>
+
                 </div>
             )}
         </div>

@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import { toast } from 'react-toastify';
 import { token, Url } from '../helpers/url';
+import { LinearProgress } from '@mui/material';
 
 const NextWeather = () => {
     const today = new Date()
@@ -30,7 +31,11 @@ const NextWeather = () => {
     const [selectedCard, setSelectedCard] = React.useState(0);
     return (
         <div className='container mx-auto px-20'>
-            {isLoading ? <h1 className="text-3xl text-white">loading...</h1>: null}
+            {isLoading ? 
+            <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
+            : null}
             {data && (
                 <div className='text-6xl mt-30 text-white'>
                     <h1 className='mb-5'>14 Kunlik ob havo</h1>

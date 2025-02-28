@@ -5,34 +5,24 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 // import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import axios, { AxiosResponse } from 'axios';
-import { useState } from "react";
-import { config } from '../helpers/url';
-import { useQuery } from '@tanstack/react-query';
 import { CountryType } from '../helpers/getCountryType';
 import { Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import TodayWeather from './todayWeather';
+import { useContext, useState } from 'react';
+import { CountryContext } from '../context/CountryContext';
 
 const Search = () => {
     // const [countrysData, setcountrysData]= useState<any>(null)
     const [focus, setOnfocus] = useState<boolean>(false)
     const [searchvalue, setsearchValue] = useState<string>('')
+    const context = useContext(CountryContext);
 
-    async function getCountry() {
-        try {
-            const res: AxiosResponse = await axios.get<CountryType[]>('https://rest-countries10.p.rapidapi.com/countries', config);
-            return res.data;
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            throw new Error("Failed to fetch countries data");
-        }
+    if (!context) {
+      return <h1 className="text-red-500">Error: CountryContext is not provided!</h1>;
     }
+    
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["country"],
-        queryFn: getCountry
-    })
+    const { data, isLoading, isError, setdata } = context
     console.log(data);
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading data</p>;
@@ -134,7 +124,7 @@ const Search = () => {
                     </AppBar>
                     <Box sx={{ display: focus ? "block" : "none", overflow: "auto", height: "350px", position: "absolute", right: "10px", marginTop: "10px", padding: "10px", borderRadius: "10px", bgcolor: 'white', width: "300px" }}>
                         <div className='flex justify-end'>
-                            <Button onClick={() => setOnfocus(false)} sx={{ color: 'black', padding: 1}}><CloseIcon /></Button>
+                            <Button onClick={() => setOnfocus(false)} sx={{ color: 'black', padding: 1 }}><CloseIcon /></Button>
                         </div>
                         <hr className='opacity-15' />
                         {filteredData && filteredData.length > 0 ? (
@@ -142,7 +132,7 @@ const Search = () => {
                                 <div key={index}>
                                     <SearchIcon />
                                     <Button sx={{ color: 'black', }} onClick={() => {
-                                        <TodayWeather name={item.name?.shortname} />
+                                        setdata(item.name?.shortname)
                                     }}>
                                         {item.name?.shortname}
                                     </Button>
