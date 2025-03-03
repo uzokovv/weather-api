@@ -1,4 +1,4 @@
-
+import bakimg from '../assets/backimg.jpg'
 import NextWeather from '../component/nextWeather';
 import Search from '../component/search';
 import TodayWeather from '../component/todayWeather';
@@ -7,6 +7,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
+      <img src={bakimg} className='bak' alt="" />
       {/* ======================search=========================== */}
       <Search />
       {/*  ===================== bugungi ob havo ================ */}

@@ -10,22 +10,36 @@ import CardActionArea from '@mui/material/CardActionArea';
 import { toast } from 'react-toastify';
 import { token, Url } from '../helpers/url';
 import { LinearProgress } from '@mui/material';
+import { CountryContext } from '../context/CountryContext';
+import { CountryType } from '../helpers/getCountryType';
 
 const NextWeather = () => {
     const today = new Date()
     today.setDate(today.getDate() + 14); // Bugungi kunga 14 kun qo‘shiladi
     const year = today.toISOString().split('T')[0]
 
-    async function getWeatherNext() {
-        const res: AxiosResponse = await axios.get<WeatherResponse>(`${Url}future.json?q=uzbekistan&dt=${year}&key=${token}`)
+    const context = React.useContext(CountryContext);
+
+    if (!context) {
+        return <h1 className="text-red-500">Error: CountryContext is not provided!</h1>;
+    }
+    const { choseCountry } = context
+
+    async function getWeatherNext(countries: CountryType | null) {
+        const res: AxiosResponse = await axios.get<WeatherResponse>(`${Url}future.json?q=${countries ? countries : "uzbekistan"}&dt=${year}&key=${token}`)
         return res.data
     }
+    
 
-    const { data, error, isLoading } = useQuery({
+    const { data, error, isLoading, refetch } = useQuery({
         queryKey: ['nextweather'],
-        queryFn: getWeatherNext
+        queryFn: () => getWeatherNext(choseCountry)
     })
-
+    React.useEffect(() => {
+        if (choseCountry) {
+            refetch();
+        }
+    }, [choseCountry, refetch]);
     error ? toast.error(error.message) : ''
 
     const [selectedCard, setSelectedCard] = React.useState(0);

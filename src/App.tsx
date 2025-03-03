@@ -1,4 +1,3 @@
-import bakimg from '../src/assets/download.jpg'
 import '../src/index.css'
 import { CountryProvider } from './context/CountryContext';
 import Home from './pages/home'
@@ -12,7 +11,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <CountryProvider>
         <Home />
-        <img src={bakimg} className='bak' alt="" />
         <ToastContainer />
       </CountryProvider>
     </QueryClientProvider>

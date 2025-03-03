@@ -6,6 +6,6 @@ interface officialflag {
     png: string,
     svg: string
 }
-interface countryName {
+export interface countryName {
     shortname: string
 }

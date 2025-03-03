@@ -6,14 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 
 type CountryContextType = {
     choseCountry: CountryType | null;
-    setdata: React.Dispatch<React.SetStateAction<CountryType | null>>;
+    setdata: React.Dispatch<React.SetStateAction<CountryContextType | null>>;
 };
 
 // Kontekstni yaratishda `defaultValue` berish kerak
 export const CountryContext = createContext<CountryContextType | null>(null);
 
 export const CountryProvider = ({ children }: any) => {
-    const [choseCountry, setdata] = useState<CountryType | null>(null)
+    const [choseCountry, setdata] = useState<CountryContextType | null>(null)
     async function getCountry() {
         try {
             const res: AxiosResponse = await axios.get<CountryType[]>('https://rest-countries10.p.rapidapi.com/countries', config);
@@ -24,9 +24,9 @@ export const CountryProvider = ({ children }: any) => {
         }
     }
 
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError } = useQuery<CountryContextType>({
         queryKey: ["country"],
-        queryFn: getCountry
+        queryFn: () => getCountry()
     })
     return (
         <CountryContext.Provider value={{ data, isLoading, isError, choseCountry, setdata }}>
