@@ -10,20 +10,18 @@ import { Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useState } from 'react';
 import { CountryContext } from '../context/CountryContext';
-import { toast } from 'react-toastify';
 
 const Search = () => {
     // const [countrysData, setcountrysData]= useState<any>(null)
     const [focus, setOnfocus] = useState<boolean>(false)
     const [searchvalue, setsearchValue] = useState<string >("");
-
     // const context = useContext<CountryContextType | null>(CountryContext);
 
     const context = useContext(CountryContext);
     if (!context) {
         throw new Error("CountryContext must be used within a CountryProvider");
     }
-    const { data, isLoading, isError, setdata } = context
+    const { data, isError, setdata } = context
 
     if (isError) return <p>Error loading data</p>;
 
@@ -68,7 +66,7 @@ const Search = () => {
                                 <div key={index}>
                                     <SearchIcon />
                                     <Button sx={{ color: 'black', }} onClick={() => {
-                                        setdata(item.name?.shortname)
+                                        setdata(item.name.shortname)
                                     }}>
                                         {item.name?.shortname}
                                     </Button>
