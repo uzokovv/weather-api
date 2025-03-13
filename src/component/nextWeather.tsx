@@ -51,7 +51,7 @@ const NextWeather = () => {
           </Box>
             : null}
             {data && (
-                <div className='text-6xl mt-30 text-white'>
+                <div className='lg:text-6xl mt-30 text-white sm:text-3xl'>
                     <h1 className='mb-5'>14 Kunlik ob havo</h1>
                     <Box
                         sx={{

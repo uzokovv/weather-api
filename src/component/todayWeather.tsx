@@ -33,10 +33,11 @@ const TodayWeather = () => {
             refetch();
         }
     }, [choseCountry, refetch]);
+
     error ? <h1>{error?.message}</h1> : null
 
     return (
-        <div className='container mx-auto px-10 md:p-20'>
+        <div className='container mx-auto px-5 md:p-20'>
             {/* kunlik ob havo */}
             {data && (
 
