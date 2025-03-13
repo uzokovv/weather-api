@@ -1,21 +1,18 @@
 import { createContext, useState } from "react";
-// import { CountryType } from "../helpers/getCountryType";
 import axios, { AxiosResponse } from "axios";
 import { config } from "../helpers/url";
 import { useQuery } from "@tanstack/react-query";
-// import { CountryContextType } from "../helpers/contextType";
+import { countryName, CountryType } from "../helpers/getCountryType";
 
-
-// Kontekstni yaratishda `defaultValue` berish kerak
 export const CountryContext = createContext<any>(null);
 
 export const CountryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [choseCountry, setdata] = useState<any>(null)
+    const [choseCountry, setdata] = useState<countryName | null>(null)
 
     async function getCountry() {
         try {
-            const res: AxiosResponse = await axios.get<any>('https://rest-countries10.p.rapidapi.com/countries', config);
+            const res: AxiosResponse = await axios.get<CountryType>('https://rest-countries10.p.rapidapi.com/countries', config);
             return res.data;
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -23,7 +20,7 @@ export const CountryProvider: React.FC<{ children: React.ReactNode }> = ({ child
         }
     }
 
-    const { data = [], isLoading, isError } = useQuery<any>({
+    const { data = [], isLoading, isError } = useQuery<CountryType>({
         queryKey: ["country"],
         queryFn: () => getCountry()
     })

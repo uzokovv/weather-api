@@ -7,7 +7,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <img src={bakimg} className='bak' alt="" />
+      <img src={bakimg} className='backImage' alt="" />
       {/* ======================search=========================== */}
       <Search />
       {/*  ===================== bugungi ob havo ================ */}

@@ -12,10 +12,8 @@ import { useContext, useState } from 'react';
 import { CountryContext } from '../context/CountryContext';
 
 const Search = () => {
-    // const [countrysData, setcountrysData]= useState<any>(null)
     const [focus, setOnfocus] = useState<boolean>(false)
     const [searchvalue, setsearchValue] = useState<string >("");
-    // const context = useContext<CountryContextType | null>(CountryContext);
 
     const context = useContext(CountryContext);
     if (!context) {

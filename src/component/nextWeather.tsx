@@ -12,6 +12,7 @@ import { token, Url } from '../helpers/url';
 import { LinearProgress } from '@mui/material';
 import { CountryContext } from '../context/CountryContext';
 import { CountryType } from '../helpers/getCountryType';
+import { NextWestherType } from '../helpers/nextWeatherType';
 
 const NextWeather = () => {
     const today = new Date()
@@ -61,7 +62,7 @@ const NextWeather = () => {
                             gap: 2,
                         }}
                     >
-                        {data?.forecast.forecastday[0].hour.map((card: any, index: any) => (
+                        {data?.forecast.forecastday[0].hour.map((card: NextWestherType, index: number) => (
                             <Card key={index}>
                                 <CardActionArea className=''
                                     onClick={() => setSelectedCard(index)}
@@ -71,7 +72,7 @@ const NextWeather = () => {
                                         '&:hover': {
                                             backgroundColor: 'action.selectedHover',
                                         },
-                                    }}
+                                    }} 
                                 >
                                     <CardContent className='text-center text-black' sx={{ height: '100%', paddingX: '0px', width: '50%', marginX: 'auto'}}>
                                         <Typography variant="h5" component="div">

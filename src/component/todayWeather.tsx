@@ -48,7 +48,6 @@ const TodayWeather = () => {
                             <LinearProgress />
                         </Box>
                         : null}
-
                     <div>
                         <h1 className='mt-30 text-white text-3xl md:text-2xl'>{data.location.country}, {data.location.region}</h1>
                         <h1 className='text-white text-1xl md:text-2xl opacity-80 flex gap-3'>hozir Soat: <Clock /> </h1>
